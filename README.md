@@ -1137,22 +1137,12 @@ private int trucksOffered;
 
 ---
 
-## 📚 Additional Resources
-
-- **Database Schema:** [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md)
-- **Complete API Docs:** [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
-- **Test Summary:** [STEP5_TEST_SUMMARY.md](STEP5_TEST_SUMMARY.md)
-- **SQL Constraints:** [database_constraints.sql](src/main/resources/db/database_constraints.sql)
-
-
----
 
 ## 🎉 Project Highlights
 
 ✨ **Technical Excellence:**
 - Clean architecture with clear separation of concerns
 - Comprehensive exception handling
-- 90%+ test coverage
 - Production-ready code quality
 
 ✨ **Business Rule Implementation:**
@@ -1175,4 +1165,4 @@ private int trucksOffered;
 
 ---
 
-**Thank you for reviewing this project!** 🚀
+**Thank you for the opportunity and reviewing this project!** 🚀
