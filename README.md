@@ -6,17 +6,16 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Technology Stack](#technology-stack)
-- [Prerequisites](#prerequisites)
-- [Project Structure](#project-structure)
-- [Setup Instructions](#setup-instructions)
-- [Database Schema](#database-schema)
-- [API Documentation](#api-documentation)
-- [Business Rules](#business-rules)
-- [Testing](#testing)
-- [Architecture & Design Decisions](#architecture--design-decisions)
-
+- Overview
+- Technology Stack
+- Prerequisites
+- Project Structure
+- Setup Instructions
+- Database Schema
+- API Documentation
+- Business Rules
+- Testing
+- Architecture & Design Decisions
 
 
 ---
@@ -107,8 +106,7 @@ tms/
 │   │   │   └── TmsApplication.java # Main Application
 │   │   └── resources/
 │   │       ├── application.properties
-│   │       └── db/
-│   │           └── database_constraints.sql
+│   │       └── database_constraints.sql       
 │   └── test/
 │       └── java/com/kshitij/tms/
 │           └── service/            # Unit Tests (4 files, 39 tests)
@@ -985,6 +983,8 @@ Bid A wins!
 - ✅ **39 tests passed**
 - ✅ **0 failures**
 - ✅ **Execution time: 556ms**
+  
+<img width="967" height="757" alt="Screenshot 2025-12-07 at 9 07 15 PM" src="https://github.com/user-attachments/assets/9c60c583-94ad-4b15-bbd8-6df2c6c58687" />
 
 
 ### Test Classes
