@@ -60,8 +60,8 @@ The Transport Management System (TMS) is a RESTful API service that handles:
 
 Before running this application, ensure you have:
 
-- **JDK 17 or higher** ([Download](https://adoptium.net/))
-- **PostgreSQL 14+** ([Download](https://www.postgresql.org/download/))
+- **JDK 17 or higher** 
+- **PostgreSQL 14+** 
 - **Maven 3.8+** (or use IntelliJ's built-in Maven)
 - **IntelliJ IDEA** (Community or Ultimate Edition)
 
