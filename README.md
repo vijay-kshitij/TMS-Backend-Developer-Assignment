@@ -16,6 +16,7 @@
 - Business Rules
 - Testing
 - Architecture & Design Decisions
+- Project Highlights
 
 
 ---
