@@ -126,9 +126,9 @@ git clone <your-repo-url>
 cd tms
 ```
 
-### Step 2: Configure PostgreSQL Database
+### Step 2: Database Setup
 
-1. **Create Database:**
+#### 2.1 Create Database
 
 **Option A: Using psql (Command Line)**
 ```bash
@@ -147,7 +147,8 @@ GRANT ALL PRIVILEGES ON DATABASE tmsdb TO tms_user;
 - Name: `tmsdb`
 - Click "Save"
 
-2. **Configure Application:**
+
+#### 2.2 **Configure Application:**
 
 Edit `src/main/resources/application.properties`:
 
@@ -160,6 +161,9 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+
+# Server Configuration
+server.port=8080
 ```
 
 ### Step 3: Build the Project
@@ -196,16 +200,20 @@ This script adds:
 
 ### Step 5: Run the Application
 
-Using Maven:
+#### Start Backend
+
 ```bash
+cd tms
 mvn spring-boot:run
 ```
 
-Using IntelliJ:
-- Right-click `TmsApplication.java`
-- Click "Run 'TmsApplication'"
+**Backend will start on:** `http://localhost:8080`
 
-**Application starts on:** `http://localhost:8080`
+**Verify it's running:**
+```bash
+curl http://localhost:8080/api/loads
+```
+Should return: `{"content":[],...}` (empty list initially)
 
 #### Start Frontend
 
