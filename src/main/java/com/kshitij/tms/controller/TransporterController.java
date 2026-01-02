@@ -34,6 +34,11 @@ public class TransporterController {
         return ResponseEntity.ok(transporterService.getTransporterById(id));
     }
 
+    @GetMapping
+    public ResponseEntity<List<Transporter>> getAllTransporters() {
+        return ResponseEntity.ok(transporterService.getAllTransporters());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Transporter> updateTransporter(
             @PathVariable UUID id,

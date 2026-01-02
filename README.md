@@ -31,11 +31,11 @@ The Transport Management System (TMS) is a RESTful API service that handles:
 - **Concurrency Control**: Prevents double-booking using optimistic locking
 
 ### Key Features
-✅ 15 RESTful API endpoints  
-✅ Complex business rule validation  
-✅ Optimistic locking for concurrent booking prevention  
-✅ Comprehensive exception handling
-✅ Database constraints and indexes for data integrity
+- 15 RESTful API endpoints  
+- Complex business rule validation  
+- Optimistic locking for concurrent booking prevention  
+- Comprehensive exception handling
+- Database constraints and indexes for data integrity
 
 ---
 
@@ -70,7 +70,7 @@ Before running this application, ensure you have:
 ## 📁 Project Structure
 
 ```
-tms/
+tms/                                  (Backend)
 ├── src/
 │   ├── main/
 │   │   ├── java/com/kshitij/tms/
@@ -85,42 +85,27 @@ tms/
 │   │   │   │   ├── BookingService.java
 │   │   │   │   └── TransporterService.java
 │   │   │   ├── repository/         # Data Access (4 files)
-│   │   │   │   ├── LoadRepository.java
-│   │   │   │   ├── BidRepository.java
-│   │   │   │   ├── BookingRepository.java
-│   │   │   │   └── TransporterRepository.java
 │   │   │   ├── entity/             # JPA Entities (9 files)
-│   │   │   │   ├── Load.java
-│   │   │   │   ├── Bid.java
-│   │   │   │   ├── Booking.java
-│   │   │   │   ├── Transporter.java
-│   │   │   │   ├── AvailableTruck.java
-│   │   │   │   └── [Status Enums]
-│   │   │   ├── dto/                # Data Transfer Objects (8 files)
-│   │   │   │   └── [Request/Response DTOs]
-│   │   │   ├── exception/          # Custom Exceptions (5 files)
-│   │   │   │   ├── ResourceNotFoundException.java
-│   │   │   │   ├── InvalidStatusTransitionException.java
-│   │   │   │   ├── InsufficientCapacityException.java
-│   │   │   │   ├── LoadAlreadyBookedException.java
-│   │   │   │   └── GlobalExceptionHandler.java
-│   │   │   └── TmsApplication.java # Main Application
+│   │   │   ├── dto/                # Data Transfer Objects
+│   │   │   ├── exception/          # Exception Handlers
+│   │   │   └── config/             # Configuration
+│   │   │       └── CorsConfig.java # CORS for frontend
 │   │   └── resources/
 │   │       ├── application.properties
-│   │       └── db/
-│   │           └── database_constraints.sql
-│   └── test/
-│       └── java/com/kshitij/tms/
-│           └── service/            # Unit Tests (4 files, 39 tests)
-│               ├── LoadServiceTest.java
-│               ├── BidServiceTest.java
-│               ├── BookingServiceTest.java
-│               └── TransporterServiceTest.java
+│   │       └── database_constraints.sql
+│   └── test/                       # Unit Tests (39 tests)
 ├── pom.xml
 └── README.md
+
+tms-frontend/                         (Frontend)
+├── index.html                       # Main HTML file
+├── css/
+│   └── style.css                    # Custom styles
+└── js/
+    └── app.js                       # JavaScript functionality
 ```
 
-**Total Files:**
+**Total Files in Backend:**
 - Controllers: 4
 - Services: 4
 - Repositories: 4
@@ -145,13 +130,22 @@ cd tms
 
 1. **Create Database:**
 
-Open pgAdmin or psql terminal:
-
+**Option A: Using psql (Command Line)**
+```bash
+psql -U postgres
+```
 ```sql
 CREATE DATABASE tmsdb;
-CREATE USER <your_username> WITH PASSWORD <your_password>;
-GRANT ALL PRIVILEGES ON DATABASE tmsdb TO <your_username>;
+CREATE USER tms_user WITH PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE tmsdb TO tms_user;
+\q
 ```
+
+**Option B: Using pgAdmin (GUI)**
+- Open pgAdmin
+- Right-click "Databases" → "Create" → "Database"
+- Name: `tmsdb`
+- Click "Save"
 
 2. **Configure Application:**
 
@@ -172,7 +166,9 @@ spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 
 Using Maven:
 ```bash
+cd tms
 mvn clean install
+mvn spring-boot:run
 ```
 
 Using IntelliJ:
@@ -210,6 +206,19 @@ Using IntelliJ:
 - Click "Run 'TmsApplication'"
 
 **Application starts on:** `http://localhost:8080`
+
+#### Start Frontend
+
+**Option 1: Double-click**
+- Navigate to `tms-frontend` folder
+- Double-click `index.html`
+
+**Option 2: Drag to Browser**
+- Drag `index.html` to Chrome/Firefox/Safari
+
+**Option 3: Open from IDE**
+- Right-click `index.html` → "Open in Browser"
+
 
 ### Step 6: Verify Setup
 

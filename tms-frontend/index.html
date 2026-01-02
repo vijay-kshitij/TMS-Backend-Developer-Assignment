@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Management System</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="bi bi-truck"></i> Transport Management System
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="showSection('loads')">
+                        <i class="bi bi-box-seam"></i> Loads
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('transporters')">
+                        <i class="bi bi-truck"></i> Transporters
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('bids')">
+                        <i class="bi bi-cash-stack"></i> Bids
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('bookings')">
+                        <i class="bi bi-check-circle"></i> Bookings
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Main Content Area -->
+        <div class="col-12">
+
+            <!-- LOADS SECTION -->
+            <div id="loadsSection" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2><i class="bi bi-box-seam"></i> Loads Management</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLoadModal">
+                        <i class="bi bi-plus-circle"></i> Create Load
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">Filter by Status:</label>
+                                <select class="form-select" id="loadStatusFilter" onchange="fetchLoads()">
+                                    <option value="">All Statuses</option>
+                                    <option value="POSTED">POSTED</option>
+                                    <option value="OPEN_FOR_BIDS">OPEN FOR BIDS</option>
+                                    <option value="BOOKED">BOOKED</option>
+                                    <option value="CANCELLED">CANCELLED</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Shipper ID:</label>
+                                <input type="text" class="form-control" id="shipperIdFilter" placeholder="Enter shipper ID">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-secondary" onclick="fetchLoads()">
+                                    <i class="bi bi-search"></i> Search
+                                </button>
+                                <button class="btn btn-outline-secondary ms-2" onclick="clearFilters()">
+                                    <i class="bi bi-x-circle"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loads List -->
+                <div id="loadsList"></div>
+            </div>
+
+            <!-- TRANSPORTERS SECTION -->
+            <div id="transportersSection" class="content-section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2><i class="bi bi-truck"></i> Transporters Management</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerTransporterModal">
+                        <i class="bi bi-plus-circle"></i> Register Transporter
+                    </button>
+                </div>
+
+                <div id="transportersList"></div>
+            </div>
+
+            <!-- BIDS SECTION -->
+            <div id="bidsSection" class="content-section" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2><i class="bi bi-cash-stack"></i> Bids Management</h2>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitBidModal">
+                        <i class="bi bi-plus-circle"></i> Submit Bid
+                    </button>
+                </div>
+
+                <div id="bidsList"></div>
+            </div>
+
+            <!-- BOOKINGS SECTION -->
+            <div id="bookingsSection" class="content-section" style="display: none;">
+                <h2><i class="bi bi-check-circle"></i> Bookings Management</h2>
+                <div id="bookingsList"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- CREATE LOAD MODAL -->
+<div class="modal fade" id="createLoadModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New Load</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createLoadForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Shipper ID *</label>
+                            <input type="text" class="form-control" id="shipperId" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Product Type *</label>
+                            <input type="text" class="form-control" id="productType" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Loading City *</label>
+                            <input type="text" class="form-control" id="loadingCity" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Unloading City *</label>
+                            <input type="text" class="form-control" id="unloadingCity" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Loading Date *</label>
+                            <input type="datetime-local" class="form-control" id="loadingDate" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Truck Type *</label>
+                            <select class="form-select" id="truckType" required>
+                                <option value="">Select truck type</option>
+                                <option value="Container">Container</option>
+                                <option value="Mini-Truck">Container</option>
+                                <option value="Flatbed">Flatbed</option>
+                                <option value="Refrigerated">Refrigerated</option>
+                                <option value="Tanker">Tanker</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Weight *</label>
+                            <input type="number" class="form-control" id="weight" step="0.01" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Weight Unit *</label>
+                            <select class="form-select" id="weightUnit" required>
+                                <option value="KG">KG</option>
+                                <option value="TON">TON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Number of Trucks *</label>
+                            <input type="number" class="form-control" id="noOfTrucks" min="1" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="createLoad()">Create Load</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- REGISTER TRANSPORTER MODAL -->
+<div class="modal fade" id="registerTransporterModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Register Transporter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerTransporterForm">
+                    <div class="mb-3">
+                        <label class="form-label">Company Name *</label>
+                        <input type="text" class="form-control" id="companyName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rating *</label>
+                        <input type="number" class="form-control" id="rating" min="1" max="5" step="0.1" required>
+                        <small class="text-muted">Rating between 1.0 and 5.0</small>
+                    </div>
+
+                    <hr>
+                    <h6>Available Trucks</h6>
+                    <div id="trucksContainer">
+                        <div class="truck-entry mb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Truck Type *</label>
+                                    <select class="form-select truck-type-select" required>
+                                        <option value="">Select truck type</option>
+                                        <option value="Container">Container</option>
+                                        <option value="Flatbed">Flatbed</option>
+                                        <option value="Refrigerated">Refrigerated</option>
+                                        <option value="Tanker">Tanker</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="form-label">Number of Trucks *</label>
+                                    <input type="number" class="form-control truck-count-input" min="1" required>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-end">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeTruckEntry(this)" style="display: none;">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addTruckEntry()">
+                        <i class="bi bi-plus-circle"></i> Add Another Truck Type
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="registerTransporter()">Register</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SUBMIT BID MODAL -->
+<div class="modal fade" id="submitBidModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Submit Bid</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="submitBidForm">
+                    <div class="mb-3">
+                        <label class="form-label">Load ID *</label>
+                        <input type="text" class="form-control" id="bidLoadId" required>
+                        <small class="text-muted">Copy from loads list</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Transporter ID *</label>
+                        <input type="text" class="form-control" id="bidTransporterId" required>
+                        <small class="text-muted">Copy from transporters list</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Proposed Rate *</label>
+                        <input type="number" class="form-control" id="proposedRate" min="0" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Trucks Offered *</label>
+                        <input type="number" class="form-control" id="trucksOffered" min="1" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="submitBid()">Submit Bid</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JS -->
+<script src="js/app.js"></script>
+</body>
+</html>

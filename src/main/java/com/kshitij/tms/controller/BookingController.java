@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -29,6 +30,11 @@ public class BookingController {
     @GetMapping("/{bookingId}")
     public ResponseEntity<Booking> getBookingById(@PathVariable UUID bookingId) {
         return ResponseEntity.ok(bookingService.getBookingById(bookingId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Booking>> getAllBookings() {
+        return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
     // CANCEL BOOKING
